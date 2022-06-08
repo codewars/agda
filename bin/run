@@ -1,0 +1,14 @@
+#!/bin/env bash
+set -eu
+
+W=/workspace/agda
+# Create container
+C=$(docker container create --rm -w $W ghcr.io/codewars/agda:latest agda --verbose=0 --include-path=. --library=standard-library --library=cubical ExampleTest.agda)
+
+# Copy files from the current directory
+# example/Example.agda
+# example/ExampleTest.agda
+docker container cp example/. $C:$W
+
+# Run tests
+docker container start --attach $C
