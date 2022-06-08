@@ -24,5 +24,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Run Example
-        run: bin/run
+      - name: Run Passing Example
+        run: bin/run passing
+      - name: Run Failing Example
+        run: bin/run failing | grep 'b != a of type A'
