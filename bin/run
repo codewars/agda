@@ -8,7 +8,7 @@ C=$(docker container create --rm -w $W ghcr.io/codewars/agda:latest agda --verbo
 # Copy files from the current directory
 # example/Example.agda
 # example/ExampleTest.agda
-docker container cp example/. $C:$W
+docker container cp examples/${1:-passing}/. $C:$W
 
 # Run tests
 docker container start --attach $C
