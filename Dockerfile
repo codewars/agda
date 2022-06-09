@@ -14,24 +14,22 @@ RUN set -ex; \
     cabal install \
       alex \
       happy \
-      Agda-2.6.0.1 \
+      Agda-2.6.2.2 \
     ;
 
 ENV PATH=/opt/agda/bin:$PATH
 # Install standard-library and cubical
 RUN set -ex; \
-    git clone --depth 1 --branch v1.0.1 https://github.com/agda/agda-stdlib.git /opt/agda/agda-stdlib; \
+    git clone --depth 1 --branch v1.7.1 https://github.com/agda/agda-stdlib.git /opt/agda/agda-stdlib; \
     cd /opt/agda/agda-stdlib; \
     cabal install; \
 # Type check all files in standard-library so that it doesn't need to be checked on every user submission.
     dist/build/GenerateEverything/GenerateEverything; \
     agda -i. -isrc Everything.agda; \
-    git clone https://github.com/agda/cubical /opt/agda/cubical; \
+    git clone --depth 1 --branch v0.3 https://github.com/agda/cubical /opt/agda/cubical; \
     cd /opt/agda/cubical; \
 # Use a version before the change incompatible with v2.6.0. https://github.com/agda/cubical/issues/145
-    git checkout b1fddc15b80ed9569224b8a1461ae5f879dab826; \
     make;
-
 
 FROM alpine:3.9
 RUN apk add --no-cache \
