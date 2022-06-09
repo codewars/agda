@@ -1,4 +1,4 @@
-FROM alpine:3.9 AS builder
+FROM alpine:3.16 AS builder
 RUN apk add --no-cache \
       libffi-dev \
       ncurses-dev \
@@ -28,10 +28,9 @@ RUN set -ex; \
     agda -i. -isrc Everything.agda; \
     git clone --depth 1 --branch v0.3 https://github.com/agda/cubical /opt/agda/cubical; \
     cd /opt/agda/cubical; \
-# Use a version before the change incompatible with v2.6.0. https://github.com/agda/cubical/issues/145
     make;
 
-FROM alpine:3.9
+FROM alpine:3.16
 RUN apk add --no-cache \
       libffi \
       ncurses \
